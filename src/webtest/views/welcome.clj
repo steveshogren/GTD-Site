@@ -7,15 +7,13 @@
         [korma.db],
         [korma.core]))
 
-(defdb prod (mysql {:db "gtd"
-                    :user "root"
+(defdb prod (mysql {:db "loansite"
+                    :user ""
                     :password ""}))
 
-(defentity tasks)
+(defentity payment)
 
 (defpage "/welcome" []
-  (insert tasks
-    (values {:task "first task"}))
   (common/layout
     [:p "Welcome to webtest"]))
 
@@ -28,7 +26,7 @@
 (defpage "/todos" {}
   (common/layout
     [:h1 "Tasks"]
-    [:p (common/todos-list (select tasks))]))
+    [:p (common/todos-list (select payment (where {:user_id 17 :soft_delete 0})))]))
 
 ;(defpage [:post "/todos"] {:keys [title due]}
 ;  (if-let [todo-id (add-todo title due)]

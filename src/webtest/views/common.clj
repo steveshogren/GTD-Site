@@ -13,8 +13,13 @@
     [:head [:title "my site"]]
     [:body [:div#wrapper content]]))
 
-(defpartial todo-item [{:keys [id task due]}]
-  [:li [:h3 task]])
+(defpartial todo-item [{:keys [payment_id amount date_paid user_id soft_delete]}]
+  [:li
+   [:ul
+    [:li "user_id: " user_id]
+    [:li "payment_id: " payment_id]
+    [:li "softdelete: " soft_delete]
+    [:li "amount: " amount]]])
 
 (defpartial todos-list [items]
   [:ul#todoItems ;; set the id attribute
