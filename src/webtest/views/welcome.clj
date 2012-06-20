@@ -11,7 +11,7 @@
                     :user ""
                     :password ""}))
 
-(defentity payment)
+(defentity loan)
 
 (defpage "/welcome" []
   (common/layout
@@ -26,7 +26,7 @@
 (defpage "/todos" {}
   (common/layout
     [:h1 "Tasks"]
-    [:p (common/todos-list (select payment (where {:user_id 17 :soft_delete 0})))]))
+    [:p (common/todos-list (select loan (where {:user_id 17 :savings 0}) (order :interest :DESC) (order :amount :DESC)))]))
 
 ;(defpage [:post "/todos"] {:keys [title due]}
 ;  (if-let [todo-id (add-todo title due)]
