@@ -7,7 +7,7 @@
 
 (deftemplate index2 "html/template2.html"
   [ctxt]
-  [:table#loanName] (content (:loanName ctxt)))
+  [:input#loanName] (set-attr :value (:loanName ctxt)))
 
 (defpartial layout [& content]
   (index2 {:loanName "testname!"}))
