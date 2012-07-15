@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('img.delete').bind('click', function(){
+                if (confirm('Do you really want to delete this loan?')) {
+                    $(this).closest('tr').animate({ height: 'hide', opacity: 'hide' }, 'slow');
+                    $.post("deleteLoan.php", {loanId: $(this).closest('td').attr("id")}, function(xml) { updatePage(xml); } );
+                }
+            });
+
+//            $("form#update").submit(function() {
+//                $.post(
+//                        "updateLoan.php",
+//                        {loanId: $('#loanId').attr('value'),
+//                            name: $('#loanName').attr('value'),
+//                            amount: $('#loanAmount').attr('value'),
+//                            interest: $('#loanInterest').attr('value')
+//                        },
+//                        function(xml) { updatePage(xml); }
+//                );
+//                return false;
+//            });
+
+            function updatePage (xml) {
+                $("#cdg_m").animate({ height: $("marginLevel", xml).text()}, 'slow');
+                $("#cdg_h2").html("Payoff Percentage: " + $("percentPaid", xml).text() + "%");
+                $("#percentageLeft1").html(100-parseInt($("percentPaid", xml).text()));
+                $("#payoffDate").html($("payoffDate", xml).text());
+                $("#interestSaved").html($("interestSaved", xml).text());
+                $("#totalLoanAmount2").html($("totalLoanAmount", xml).text());
+                $("#totalLoanAmount").html($("totalLoanAmount", xml).text());
+                $("#cdg_p").animate( {marginBottom: $("marginLevel", xml).text()}, 'slow');
+            }
+
+            $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focus(function(){
+                if (this.defaultValue == this.value) {
+                    $(this).val('');
+                }
+            });
+
+            $("input[class=input_amount], input[class=input_interest]").focus(function(){
+                if (this.defaultValue == this.value) {
+                    $(this).select();
+                }
+            });
+
+            $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focusout(function(){
+                if (this.value == '') {
+                    $(this).val(this.defaultValue);
+                }
+            });
+
+        });
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <title>Break These Chains</title>
+    <link href="stylesheet.css" rel="stylesheet" type="text/css" media="screen"/>
+</head>
+
+<body>
+<div class="main">
+<div class="header">
+    <div class="header-top">
+        <span class="sitename">Break These Chains</span>
+        <div class="login-bg">
+            <form action="index.php" method="post" name="logout">
+                <a href='index.php?logout=true' class="white-link">Logout</a>
+            </form>
+        </div>
+    </div>
+    <div class="header-bottom">
+        <div id="navcontainer">
+            <ul class="navlist">
+                <li class="active"><a href="index.php">Home</a></li>
+                <li class=""><a href="about.php">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="body-main">
+<div class="body-bottom">
+<div class="tables">
+<table class="table">
+    <tr>
+    <th>Loan Name</th>
+    <th>%</th>
+    <th class="table_interest_head">Interest</th>
+    <th>Amount</th>
+    <th>Max</th>
+    <th>Update</th>
+    <th>Delete</th>
+    </tr>
+    <form action="index.php" method="post" name="update" id="update">
+        <tr>
+            <input id="loanId" type="hidden" name="loanId" value="5">
+            <td class="tabletext">
+                <input id="loanName" class="input_name" type="text" name="name" value="Loan Name">
+            </td>
+            <td class="tabletext">
+                <img src="images/percentImage.png" alt="sup?" class="percentImage" style="background-position: -100px 0pt;"/>
+            </td>
+            <td class="table_interest">
+                <input id="loanInterest" class="input_interest" type="text" name="interest" value="10.1">
+            </td>
+            <td class="tabletext">
+                <input id="loanAmount" class="input_amount" type="text" name="amount" value="10500.1">
+            </td>
+            <td class="table_max_amount_text">20,000</td>
+            <td class="tabletext">
+                <input type="hidden" name="Submit" value="5">
+                <input type="image" class="update" title="Update" src="accept.png"/>
+            </td>
+            <td class="tabletext" id="5">
+                <img class="delete" src="delete.png"  title="Delete" alt="Delete" name="delete" value="delete" />
+            </td>
+        </tr>
+    </form>
+</table>
+<table class="table">
+    <th>Create a New Loan</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>Create</th>
+    <tr>
+        <form action="index.php" method="post" name="0" class="update">
+        <input type="hidden" name="loanId" value="0">
+            <td class="tabletext">
+                <input class="input_name" type="text" name="name" value="">
+            </td>
+            <td class="tabletext">
+                <input class="input_new_interest" type="text" name="interest" value="">
+            </td>
+            <td class="tabletext">
+                <input class="input_new_amount" type="text" name="amount" value="">
+            </td>
+            <td class="tabletext">
+                <input class="input_new_amount" type="text" name="max_amount" value="">
+            </td>
+            <td class="tabletext">
+                <input type="hidden" name="Submit" value="Create">
+                <input type="image" class="create" title="Create" src="add.png"/>
+            </td>
+    </form>
+    </tr>
+</table>
+</div>
+
+<div class="login-box">
+    <div id="sideheader">Payoff Stats</div>
+    <div id="sidecontent">
+        <p title='Interest saved based on a 10 year loan compounded monthly. Meant for motivation only!'>
+            <span id="averagePerWeek">$400</span>
+            <span class="sidebarpayment">Avg. Per Week</span>
+            <br/>
+            <span id="averagePerMonth">$1200</span>
+            <span class="sidebarpayment">Avg. Per Month</span>
+            <br/>
+            <span id="payoffDate">2/14/2012</span>
+            <span class="sidebarpayment">Payoff Date</span>
+            <br/>
+            $<span id="interestSaved">15000</span>
+            <span class="sidebarpayment">
+                Estimated Interest Saved
+            </span>
+        </p>
+        <a href='index.php?reset=true'>Reset</a> Stats
+
+    </div>
+
+</div>
+<div class="login-boxprogbar">
+    <?php include "progress_bar/ProgBar2.php"; ?>
+</div>
+</div>
+</div>
+<div class="footer"></div>
+</div>
+</body>
+</html>

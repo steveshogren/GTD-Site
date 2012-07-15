@@ -7,7 +7,7 @@
 (defpartial layout [& content]
   (html5
     [:head [:title "webtest"]
-     (include-css "/css/reset.css")]
+     (include-css "/css/stylesheet.css")]
     [:body [:div#wrapper content]]))
 
 (defpartial site-layout [& content]
@@ -17,10 +17,12 @@
 
 (defpartial todo-item [{:keys [loan_id amount max_amount description interest]}]
    [:tr
-    [:td (text-field "description" description)]
-    [:td (text-field "interest" interest)]
-    [:td (text-field "amount" amount)]
-    [:td max_amount]])
+    [:td.tabletext (text-field "input_name" description)]
+    [:td.table_interest (text-field "input_interest" interest)]
+    [:td.tabletext (text-field "input_amount" amount)]
+    [:td.table_max_amount_text max_amount]
+    [:td.tabletext (input "Update")]
+    [:td.tabletext (input "Delete")]])
 
 
 (defpartial todos-list [items]
