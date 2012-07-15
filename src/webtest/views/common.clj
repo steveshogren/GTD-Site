@@ -1,17 +1,16 @@
 (ns webtest.views.common
-  (:require [net.cgrand.enlive-html :as html])
   (:use [noir.core :only [defpartial]]
         [hiccup.page-helpers]
         [hiccup.form-helpers]
-        [hiccup.core]))
+        [hiccup.core]
+        [net.cgrand.enlive-html]))
 
-(html/deftemplate index "html/template2.html"
+(deftemplate index2 "html/template2.html"
   [ctxt]
-  [:p#message] (html/content (:message ctxt)))
+  [:table#loanName] (content (:loanName ctxt)))
 
 (defpartial layout [& content]
-  "<html> <p>testst</p></html>"
-  )
+  (index2 {:loanName "testname!"}))
 
 (defpartial site-layout [& content]
   (html5

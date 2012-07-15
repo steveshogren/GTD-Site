@@ -8,7 +8,7 @@
         [korma.core]))
 
 (defdb prod (mysql {:db "loansite"
-                    :user ""
+                    :user "root"
                     :password ""}))
 
 (defentity loan)
