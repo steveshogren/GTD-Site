@@ -1,14 +1,17 @@
 (ns webtest.views.common
+  (:require [net.cgrand.enlive-html :as html])
   (:use [noir.core :only [defpartial]]
         [hiccup.page-helpers]
         [hiccup.form-helpers]
         [hiccup.core]))
 
+(html/deftemplate index "html/template2.html"
+  [ctxt]
+  [:p#message] (html/content (:message ctxt)))
+
 (defpartial layout [& content]
-  (html5
-    [:head [:title "webtest"]
-     (include-css "/css/stylesheet.css")]
-    [:body [:div#wrapper content]]))
+  "<html> <p>testst</p></html>"
+  )
 
 (defpartial site-layout [& content]
   (html5
@@ -21,8 +24,7 @@
     [:td.table_interest (text-field "input_interest" interest)]
     [:td.tabletext (text-field "input_amount" amount)]
     [:td.table_max_amount_text max_amount]
-    [:td.tabletext (input "Update")]
-    [:td.tabletext (input "Delete")]])
+     ])
 
 
 (defpartial todos-list [items]
