@@ -84,7 +84,7 @@
 <div class="body-main">
 <div class="body-bottom">
 <div class="tables">
-<table class="table">
+<table class="table" id="crudTable">
     <tr>
     <th>Loan Name</th>
     <th>%</th>
@@ -95,10 +95,10 @@
     <th>Delete</th>
     </tr>
     <form action="index.php" method="post" name="update" id="update">
-        <tr>
+        <tr id="loanRow">
             <input id="loanId" type="hidden" name="loanId" value="5">
             <td class="tabletext">
-                <input id="loanName" class="input_name" type="text" name="name" value="Loan Name">
+                <input id="loanName" class="input_name" type="text" name="name" value="Loan Name 2">
             </td>
             <td class="tabletext">
                 <img src="img/percentImage.png" alt="sup?" class="percentImage" style="background-position: -100px 0pt;"/>

@@ -17,16 +17,14 @@
   (common/layout
     [:p "Welcome to webtest"]))
 
-(defpage "/my-page" []
+#_(defpage "/my-page" []
   (common/site-layout
     [:h1 "welcome to my site!"]
     [:p "hope you like it."]))
 
 
 (defpage "/todos" {}
-  (common/layout
-    [:h1 "Tasks"]
-    [:p (common/todos-list (select loan (where {:user_id 17 :savings 0}) (order :interest :DESC) (order :amount :DESC)))]))
+  (common/layout (select loan (where {:user_id 17 :savings 0}) (order :interest :DESC) (order :amount :DESC))))
 
 ;(defpage [:post "/todos"] {:keys [title due]}
 ;  (if-let [todo-id (add-todo title due)]
