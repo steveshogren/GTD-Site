@@ -17,8 +17,14 @@
   (common/layout
     [:p "Welcome to webtest"]))
 
+(defn loan-list []
+  (select loan
+    (where {:user_id 17 :savings 0})
+    (order :interest :DESC)
+    (order :amount :DESC)))
+
 (defpage "/todos" {}
-  (common/layout (select loan (where {:user_id 17 :savings 0}) (order :interest :DESC) (order :amount :DESC))))
+  (common/layout (loan-list)))
 
 ;(defpage [:post "/todos"] {:keys [title due]}
 ;  (if-let [todo-id (add-todo title due)]

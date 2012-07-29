@@ -4,6 +4,7 @@
                  [korma "0.3.0-beta9"]
                  [mysql/mysql-connector-java "5.1.19"]
                  [noir "1.2.1"]
+                 [org.clojure/math.numeric-tower "0.0.1"]
                  [enlive "1.0.0"]]
   :main webtest.server)
 
