@@ -2,6 +2,7 @@
   (:use [noir.core :only [defpartial]]
         [hiccup.page-helpers]
         [hiccup.form-helpers]
+        [webtest.models.database]
         [clojure.math.numeric-tower]
         [hiccup.core]
         [net.cgrand.enlive-html]))
@@ -15,15 +16,6 @@
   [:.table_max_amount_text] (content (str max_amount))
   [:input#loanAmount] (set-attr :value amount))
 
-(defn totalRemaining [loans]
-  (round (reduce + (map #(get % :amount) loans))))
-
-(defn totalMaxRemaining [loans]
-  (round (reduce + (map #(get % :max_amount) loans))))
-
-(defn loanPayoffPercentage [loans]
-  (round (* 100 (/ (totalRemaining loans) (totalMaxRemaining loans)))))
-
 (defn thermometer-pixel [loans]
   (/ (* 300 (- 100 (loanPayoffPercentage loans))) 100))
 
@@ -35,16 +27,14 @@
      (.format (NumberFormat/getInstance locale) (bigdec n))))
 
 (deftemplate index2 "html/template2.html"
-  [loans]
+  [loans payments]
   [:form#update] (content (map row-model loans))
+  [:#averagePerWeek] (content (commify (payment-per-week payments)))
   [:span#totalMaxAmount] (content (commify (totalMaxRemaining loans)))
   [:span#totalLoanAmount] (content (commify (totalRemaining loans)))
   [:#cdg_m] (set-attr :style (str "height: " (thermometer-pixel loans) "px;"))
   [:#cdg_p] (set-attr :style (str "margin-bottom: " (thermometer-pixel loans) "px;"))
   [:h2#cdg_h2] (content (str "Percent remaining: " (loanPayoffPercentage loans) "%")))
 
-
-(defpartial layout [loans]
-  (index2 loans))
-
-
+(defpartial layout []
+  (index2 (loan-list) (payment-list)))

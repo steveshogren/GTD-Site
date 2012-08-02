@@ -1,30 +1,14 @@
 (ns webtest.views.welcome
-  (:require [webtest.views.common :as common]
-            [korma.db]
-            [korma.core])
+  (:require [webtest.views.common :as common])
   (:use [noir.core :only [defpage]]
-        [hiccup.core :only [html]]
-        [korma.db],
-        [korma.core]))
-
-(defdb prod (mysql {:db "loansite"
-                    :user "root"
-                    :password ""}))
-
-(defentity loan)
+        [hiccup.core :only [html]]))
 
 (defpage "/welcome" []
   (common/layout
     [:p "Welcome to webtest"]))
 
-(defn loan-list []
-  (select loan
-    (where {:user_id 17 :savings 0})
-    (order :interest :DESC)
-    (order :amount :DESC)))
-
 (defpage "/todos" {}
-  (common/layout (loan-list)))
+  (common/layout))
 
 ;(defpage [:post "/todos"] {:keys [title due]}
 ;  (if-let [todo-id (add-todo title due)]
