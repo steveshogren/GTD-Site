@@ -40,10 +40,18 @@
 (defn newest-payment-date [payments]
  (.getTime (get (first payments) :date_paid)))
 
-(defn weeks-of-payment [payments]
-  (round (/ (/ (/ (/ (/ (- (newest-payment-date payments) (oldest-payment-date payments)) 1000) 60) 60) 24) 7)))
+(defn days-of-payment [payments]
+  (round (/ (/ (/ (/ (- (newest-payment-date payments) (oldest-payment-date payments)) 1000) 60) 60) 24)))
+
+(defn sum-payments [payments]
+  (sumKey payments :amount))
+
+(defn payment-per-day [payments]
+ (/ (- (sum-payments payments) (get (last payments) :amount)) (days-of-payment payments)))
 
 (defn payment-per-week [payments]
-  (weeks-of-payment payments))
+ (round (* (payment-per-day payments) 7)))
 
+(defn payment-per-month [payments]
+ (round (* (payment-per-day payments) 30)))
 

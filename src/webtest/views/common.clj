@@ -30,6 +30,7 @@
   [loans payments]
   [:form#update] (content (map row-model loans))
   [:#averagePerWeek] (content (commify (payment-per-week payments)))
+  [:#averagePerMonth] (content (commify (payment-per-month payments)))
   [:span#totalMaxAmount] (content (commify (totalMaxRemaining loans)))
   [:span#totalLoanAmount] (content (commify (totalRemaining loans)))
   [:#cdg_m] (set-attr :style (str "height: " (thermometer-pixel loans) "px;"))
