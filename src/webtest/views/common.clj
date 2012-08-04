@@ -2,7 +2,9 @@
   (:use [noir.core :only [defpartial]]
         [hiccup.page-helpers]
         [hiccup.form-helpers]
+        [webtest.models.payments]
         [webtest.models.database]
+        [webtest.models.loans]
         [clojure.math.numeric-tower]
         [hiccup.core]
         [net.cgrand.enlive-html]))
@@ -31,6 +33,7 @@
   [:form#update] (content (map row-model loans))
   [:#averagePerWeek] (content (commify (payment-per-week payments)))
   [:#averagePerMonth] (content (commify (payment-per-month payments)))
+  [:#payoffDate] (content (payoff-date payments loans))
   [:span#totalMaxAmount] (content (commify (totalMaxRemaining loans)))
   [:span#totalLoanAmount] (content (commify (totalRemaining loans)))
   [:#cdg_m] (set-attr :style (str "height: " (thermometer-pixel loans) "px;"))
