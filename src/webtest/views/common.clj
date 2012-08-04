@@ -22,7 +22,7 @@
   [:input#loanName] (set-attr :value description)
   [:input#loanInterest] (set-attr :value interest)
   [:.table_max_amount_text] (content (str max_amount))
-  [:#percentImage] (set-attr :style (str "background-position: "
+  [:.percentImage] (set-attr :style (str "background-position: "
                                          (bar-pixel amount max_amount)
                                          "px 0pt;"))
   [:input#loanAmount] (set-attr :value amount))
