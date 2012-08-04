@@ -11,12 +11,22 @@
 
 (def loan-row-sel [[:form#update (nth-of-type 1)]])
 
+; converts the percentage to match the -120 -> 0 range 
+(defn bar-pixel [amount max-amount]
+  (if (or (>= 0 amount) (>= 0 max-amount))
+    -120
+    (round (- (/ (* 120 (* 100 (/ amount max-amount))) 100) 120))))
+
 (defsnippet row-model "html/template2.html" loan-row-sel
   [{:keys [loan_id amount max_amount description interest]}]
   [:input#loanName] (set-attr :value description)
   [:input#loanInterest] (set-attr :value interest)
   [:.table_max_amount_text] (content (str max_amount))
+  [:#percentImage] (set-attr :style (str "background-position: "
+                                         (bar-pixel amount max_amount)
+                                         "px 0pt;"))
   [:input#loanAmount] (set-attr :value amount))
+
 
 (defn thermometer-pixel [loans]
   (/ (* 300 (- 100 (loanPayoffPercentage loans))) 100))

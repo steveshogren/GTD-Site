@@ -34,7 +34,7 @@ a {
 }
 
 .header {
-    background: url(img/body-top-bg.gif) center top no-repeat #FFF;
+    background: url("/img/body-top-bg.gif") center top no-repeat #FFF;
     height: 62px;
     margin: 0 auto;
     padding: 0px;
@@ -52,7 +52,7 @@ a {
 .login-bg {
     width: 122px;
     height: 22px;
-    background: url(img/login-bg.gif) left top no-repeat;
+    background: url(/img/login-bg.gif) left top no-repeat;
     text-align: center;
     color: #FFF;
     float: right;
@@ -68,7 +68,7 @@ a {
 
 .search-input {
     border: none;
-    background: url(img/search-bg.gif) left center no-repeat;
+    background: url(/img/search-bg.gif) left center no-repeat;
     height: 18px;
     width: 117px;
     padding-left: 4px;
@@ -102,12 +102,12 @@ a {
     text-align: center;
     padding: 0;
     margin: 0;
-    background: url(img/menu-normal-bg.gif) center center no-repeat;
+    background: url(/img/menu-normal-bg.gif) center center no-repeat;
     height: 31px;
 }
 
 #navcontainer ul li a {
-    background: url(img/menu-normal-bg.gif) center center no-repeat;
+    background: url(/img/menu-normal-bg.gif) center center no-repeat;
     width: 83px;
     height: 31px;
     padding: 0px;
@@ -121,13 +121,13 @@ a {
 
 #navcontainer ul li a:hover {
     color: #555;
-    background: url(img/menu-hover-bg.gif) center center no-repeat;
+    background: url(/img/menu-hover-bg.gif) center center no-repeat;
     height: 31px;
 }
 
 #navcontainer li.active a {
     color: #333;
-    background: url(img/menu-active-bg.gif) center center no-repeat;
+    background: url(/img/menu-active-bg.gif) center center no-repeat;
     height: 31px;
 }
 
@@ -150,7 +150,7 @@ a {
     height: auto;
     float: left;
     text-align: left;
-    background: url(img/logo-bottom.gif) left top no-repeat;
+    background: url(/img/logo-bottom.gif) left top no-repeat;
     padding-top: 142px;
 }
 
@@ -178,7 +178,7 @@ a {
     height: auto;
     float: right;
     text-align: left;
-    background: url(img/body-middle-line.gif) left top repeat-y;
+    background: url(/img/body-middle-line.gif) left top repeat-y;
     padding-left: 15px;
 }
 
@@ -202,7 +202,7 @@ a {
 }
 
 .fav-text {
-    background: url(img/fav-image.gif) left top no-repeat;
+    background: url(/img/fav-image.gif) left top no-repeat;
     padding-left: 80px;
     height: 93px;
     text-align: left;
@@ -236,7 +236,7 @@ a {
 }
 
 .body-bottom {
-    background: url(img/body-middle-line.gif) left top repeat-x;
+    background: url(/img/body-middle-line.gif) left top repeat-x;
     padding-bottom: 15px;
     width: 860px;
     margin: 0px auto;
@@ -275,7 +275,7 @@ a {
 }
 
 .bottom-box-th {
-    background: url(img/image-box-bg.gif) left top no-repeat;
+    background: url(/img/image-box-bg.gif) left top no-repeat;
     padding-left: 11px;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -432,7 +432,7 @@ a {
 }
 
 #body {
-/*background:#555544 url(bg2.gif) repeat scroll 0 0;*/
+/*background:#555544 url(/bg2.gif) repeat scroll 0 0;*/
     background: #2F2E36;
     padding: 0px;
     border: 0px;
@@ -574,7 +574,7 @@ td {
 }
 
 img.percentImage {
-    background: white url(img/percentImage_back.png) top left no-repeat;
+    background: white url(/img/percentImage_back.png) top left no-repeat;
     padding: 0;
     margin: 5px 0 0 0;
     background-position: 1px 0;
