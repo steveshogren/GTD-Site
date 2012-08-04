@@ -1,14 +1,18 @@
 (ns webtest.views.welcome
   (:require [webtest.views.common :as common])
   (:use [noir.core :only [defpage]]
+        [noir.response :as response]
         [hiccup.core :only [html]]))
 
-(defpage "/welcome" []
-  (common/layout
-    [:p "Welcome to webtest"]))
-
-(defpage "/todos" {}
+(defpage "/" {}
   (common/layout))
+
+(defpage [:post "/update"] {:keys [loanId loanName loanInterest loanAmount]}
+  (let [response (common/update-loan-with-response loanId loanName loanInterest loanAmount)]
+    (response/json {:payoffDate (get :payoff-date response)
+                    :totalLoanAmount (get :total response)
+                    :percentPaid (get :percent response)
+                    :marginLevel (get :thermometer response)})))
 
 ;(defpage [:post "/todos"] {:keys [title due]}
 ;  (if-let [todo-id (add-todo title due)]

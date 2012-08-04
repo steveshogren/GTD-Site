@@ -5,35 +5,31 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('img.delete').bind('click', function(){
-                if (confirm('Do you really want to delete this loan?')) {
-                    $(this).closest('tr').animate({ height: 'hide', opacity: 'hide' }, 'slow');
-                    $.post("deleteLoan.php", {loanId: $(this).closest('td').attr("id")}, function(xml) { updatePage(xml); } );
-                }
+            $("form#update").submit(function(event) {
+                event.preventDefault();
+                var t = {loanId: $('#loanId').attr('value'),
+                     loanName: $('#loanName').attr('value'),
+                     loanInterest: $('#loanInterest').attr('value'),
+                     loanAmount: $('#loanAmount').attr('value')};
+                alert("update called" + t);
+                $.post(
+                    "update",
+                    t,
+                    function(json) { updatePage(json); }
+                );
+                return false;
             });
 
-//            $("form#update").submit(function() {
-//                $.post(
-//                        "updateLoan.php",
-//                        {loanId: $('#loanId').attr('value'),
-//                            name: $('#loanName').attr('value'),
-//                            amount: $('#loanAmount').attr('value'),
-//                            interest: $('#loanInterest').attr('value')
-//                        },
-//                        function(xml) { updatePage(xml); }
-//                );
-//                return false;
-//            });
-
-            function updatePage (xml) {
-                $("#cdg_m").animate({ height: $("marginLevel", xml).text()}, 'slow');
-                $("#cdg_h2").html("Payoff Percentage: " + $("percentPaid", xml).text() + "%");
-                $("#percentageLeft1").html(100-parseInt($("percentPaid", xml).text()));
-                $("#payoffDate").html($("payoffDate", xml).text());
-                $("#interestSaved").html($("interestSaved", xml).text());
-                $("#totalLoanAmount2").html($("totalLoanAmount", xml).text());
-                $("#totalLoanAmount").html($("totalLoanAmount", xml).text());
-                $("#cdg_p").animate( {marginBottom: $("marginLevel", xml).text()}, 'slow');
+            function updatePage (json) {
+                alert("data: " + json);
+        //        $("#cdg_m").animate({ height: $("marginLevel", xml).text()}, 'slow');
+        //        $("#cdg_h2").html("Payoff Percentage: " + $("percentPaid", xml).text() + "%");
+        //        $("#percentageLeft1").html(100-parseInt($("percentPaid", xml).text()));
+        //        $("#payoffDate").html($("payoffDate", xml).text());
+        //        $("#interestSaved").html($("interestSaved", xml).text());
+        //        $("#totalLoanAmount2").html($("totalLoanAmount", xml).text());
+        //        $("#totalLoanAmount").html($("totalLoanAmount", xml).text());
+        //        $("#cdg_p").animate( {marginBottom: $("marginLevel", xml).text()}, 'slow');
             }
 
             $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focus(function(){
@@ -94,9 +90,9 @@
     <th>Update</th>
     <th>Delete</th>
     </tr>
-    <form action="index.php" method="post" name="update" id="update">
+    <form action="" method="post" name="update" id="update">
         <tr id="loanRow">
-            <input id="loanId" type="hidden" name="loanId" value="5">
+            <input id="loanId" type="hidden" name="loanId" value="191">
             <td class="tabletext">
                 <input id="loanName" class="input_name" type="text" name="name" value="Loan Name 2">
             </td>
@@ -111,8 +107,7 @@
             </td>
             <td class="table_max_amount_text">20,000</td>
             <td class="tabletext">
-                <input type="hidden" name="Submit" value="5">
-                <input type="image" class="update" title="Update" src="img/accept.png"/>
+                <input type="image" class="up" title="Update" src="img/accept.png"/>
             </td>
             <td class="tabletext" id="5">
                 <img class="delete" src="img/delete.png"  title="Delete" alt="Delete" name="delete" value="delete" />
