@@ -29,16 +29,20 @@
      (.format (NumberFormat/getInstance locale) (bigdec n))))
 
 (deftemplate index2 "html/template2.html"
-  [loans payments]
+  [loans payments total-max-remaining total-remaining]
   [:form#update] (content (map row-model loans))
   [:#averagePerWeek] (content (commify (payment-per-week payments)))
   [:#averagePerMonth] (content (commify (payment-per-month payments)))
   [:#payoffDate] (content (payoff-date payments loans))
-  [:span#totalMaxAmount] (content (commify (totalMaxRemaining loans)))
-  [:span#totalLoanAmount] (content (commify (totalRemaining loans)))
+  [:span#totalMaxAmount] (content (commify total-max-remaining))
+  [:span#totalLoanAmount] (content (commify total-remaining))
   [:#cdg_m] (set-attr :style (str "height: " (thermometer-pixel loans) "px;"))
   [:#cdg_p] (set-attr :style (str "margin-bottom: " (thermometer-pixel loans) "px;"))
   [:h2#cdg_h2] (content (str "Percent remaining: " (loanPayoffPercentage loans) "%")))
 
 (defpartial layout []
-  (index2 (loan-list) (payment-list)))
+  (let [loans (loan-list)
+        payments (payment-list)
+        total-max-remaining (totalMaxRemaining loans)
+        total-remaining (totalRemaining loans)]
+    (index2 loans payments total-max-remaining total-remaining)))
