@@ -24,6 +24,7 @@
   [:input#loanId] (set-attr :value loan_id)
   [:input#loanInterest] (set-attr :value interest)
   [:.table_max_amount_text] (content (str max_amount))
+  [:.table_max_amount_text] (set-attr :id (str "max_amount_" loan_id))
   [:.percentImage] (set-attr :style (str "background-position: "
                                          (bar-pixel amount max_amount)
                                          "px 0pt;")
@@ -61,7 +62,7 @@
     (index2 loans payments total-max-remaining total-remaining)))
 
 (defn update-loan-with-response  [{:keys [loanAmount  loanName loanInterest loanId]}]
-  (println loanId loanName loanInterest loanAmount)
+  #_(println loanId loanName loanInterest loanAmount)
   (let [changed-loan (update-loan loanId loanName loanInterest loanAmount)
         loans (loan-list)
         payments (payment-list)
@@ -74,4 +75,5 @@
      :paymentmonth (str (payment-per-month payments))
      :barpixel (str (bar-pixel changed-loan))
      :loanid (str loanId)
+     :loanmax (str (get changed-loan :max_amount))
      :thermometer (str (thermometer-pixel loans))}))

@@ -4,7 +4,7 @@
 <head>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
-        alert("tests");
+        //alert("tests");
         $(document).ready(function() {
             $("form").submit(function(event) {
                 //alert("update ");
@@ -20,14 +20,11 @@
                 return false;
             });
             
-            function getThermometerPercent(percent) {
-
-            }
-
             function updatePage (json) {
                 $("#cdg_m").animate({ height: json.thermometer}, 'slow');
                 $("#cdg_p").animate({ marginBottom: json.thermometer}, 'slow');
                 $("#barpixel" + json.loanid).animate({ 'background-position-x': json.barpixel}, 'slow');
+                $("#max_amount_" + json.loanid).html(json.loanmax);
                 $("#cdg_h2").html("Percent remaining: " + json.percent + "%");
                 $("#payoffDate").html(json.payoffdate);
                 $("#averagePerWeek").html(json.paymentweek);
@@ -108,7 +105,7 @@
             <td class="tabletext">
                 <input id="loanAmount" class="input_amount" type="text" name="amount" value="10500.1">
             </td>
-            <td class="table_max_amount_text">20,000</td>
+            <td class="table_max_amount_text" id="max_amount_5">20,000</td>
             <td class="tabletext">
                 <input type="image" class="update" title="Update" src="img/accept.png"/>
             </td>
