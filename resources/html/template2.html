@@ -19,6 +19,11 @@
                 $.post("update", t, function(json) { updatePage(json); }, "json");
                 return false;
             });
+
+            function updateLoan (json) {
+                $("#barpixel" + json.loanid).animate({ 'background-position-x': json.barpixel}, 'slow');
+                $("#max_amount_" + json.loanid).html(json.loanmax);
+            }
             
             function updatePage (json) {
                 $("#cdg_m").animate({ height: json.thermometer}, 'slow');

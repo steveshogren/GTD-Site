@@ -61,19 +61,33 @@
         total-remaining (totalRemaining loans)]
     (index2 loans payments total-max-remaining total-remaining)))
 
-(defn update-loan-with-response  [{:keys [loanAmount  loanName loanInterest loanId]}]
-  #_(println loanId loanName loanInterest loanAmount)
-  (let [changed-loan (update-loan loanId loanName loanInterest loanAmount)
-        loans (loan-list)
+(defn loan-ajax-response []
+  (let [loans (loan-list)
         payments (payment-list)
         total-max (totalMaxRemaining loans)
         total (totalRemaining loans)]
     {:payoffdate (str (payoff-date payments loans))
      :total (str (commify total))
+     :totalmax (str (commify total-max))
      :percent (str (loanPayoffPercentage loans))
      :paymentweek (str (payment-per-week payments))
      :paymentmonth (str (payment-per-month payments))
-     :barpixel (str (bar-pixel changed-loan))
-     :loanid (str loanId)
-     :loanmax (str (get changed-loan :max_amount))
      :thermometer (str (thermometer-pixel loans))}))
+ 
+(defn update-loan-with-response
+  [loan-to-update]
+  (let [changed-loan (update-loan loan-to-update)
+        resp (loan-ajax-response)]
+    (assoc resp
+      :loanid (str (get changed-loan :loan_id))
+      :barpixel (str (bar-pixel changed-loan))
+      :loanmax (str (get changed-loan :max_amount)))))
+
+(defn delete-loan-with-response
+  [{:keys [loanId]}]
+  (let [deleted-loan (delete-loan loanId)
+        resp (loan-ajax-response)]
+    (assoc resp
+      :loanid (str loanId))))
+    
+
