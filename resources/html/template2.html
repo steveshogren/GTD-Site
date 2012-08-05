@@ -4,8 +4,10 @@
 <head>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript">
+        alert("tests");
         $(document).ready(function() {
-            $("form#update").submit(function(event) {
+            $("form").submit(function(event) {
+                //alert("update ");
                 //console.log(event.data);
                 // stop normal submit
                 event.preventDefault();
@@ -23,13 +25,15 @@
             }
 
             function updatePage (json) {
-                //alert(json);
                 //console.log(json);
-                $("#cdg_m").animate({ height: json.marginlevel}, 'slow');
-                $("#cdg_p").animate( {marginBottom: json.marginlevel}, 'slow');
-                $("#cdg_h2").html("Percent remaining: " + json.percentpaid + "%");
+                $("#cdg_m").animate({ height: json.thermometer}, 'slow');
+                $("#cdg_p").animate({ marginBottom: json.thermometer}, 'slow');
+                $("#barpixel" + json.loanid).animate({ 'background-position-x': json.barpixel}, 'slow');
+                $("#cdg_h2").html("Percent remaining: " + json.percent + "%");
                 $("#payoffDate").html(json.payoffdate);
-                $("#totalLoanAmount").html(json.totalloanamount);
+                $("#averagePerWeek").html(json.paymentweek);
+                $("#averagePerMonth").html(json.paymentmonth);
+                $("#totalLoanAmount").html(json.total);
             }
 
             $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focus(function(){
@@ -90,14 +94,14 @@
     <th>Update</th>
     <th>Delete</th>
     </tr>
-    <form action="" method="post" name="update" id="update">
+    <form action="index.php" method="post" name="update" id="update">
         <tr id="loanRow">
             <input id="loanId" type="hidden" name="loanId" value="191">
             <td class="tabletext">
                 <input id="loanName" class="input_name" type="text" name="name" value="Loan Name 2">
             </td>
             <td class="tabletext">
-                <img src="img/percentImage.png" alt="sup?" class="percentImage" style="background-position: -100px 0pt;"/>
+                <img src="img/percentImage.png" id="barpixel5" alt="sup?" class="percentImage" style="background-position: -100px 0pt;"/>
             </td>
             <td class="table_interest">
                 <input id="loanInterest" class="input_interest" type="text" name="interest" value="10.1">
@@ -107,7 +111,7 @@
             </td>
             <td class="table_max_amount_text">20,000</td>
             <td class="tabletext">
-                <input type="image" class="up" title="Update" src="img/accept.png"/>
+                <input type="image" class="update" title="Update" src="img/accept.png"/>
             </td>
             <td class="tabletext" id="5">
                 <img class="delete" src="img/delete.png"  title="Delete" alt="Delete" name="delete" value="delete" />

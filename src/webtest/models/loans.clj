@@ -33,6 +33,7 @@
         new-max (if (> (intn loanAmount) old-max) loanAmount old-max)]
     (update loan
       (set-fields {:description loanName :amount loanAmount :interest loanInterest :max_amount new-max})
-      (where {:loan_id loanId}))))
+      (where {:loan_id loanId}))
+    (first (loan-by-id loanId))))
 
 

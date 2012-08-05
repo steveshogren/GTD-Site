@@ -12,10 +12,11 @@
 (def loan-row-sel [[:form#update (nth-of-type 1)]])
 
 ; converts the percentage to match the -120 -> 0 range 
-(defn bar-pixel [amount max-amount]
-  (if (or (>= 0 amount) (>= 0 max-amount))
-    -120
-    (round (- (/ (* 120 (* 100 (/ amount max-amount))) 100) 120))))
+(defn bar-pixel
+  ([{:keys [amount max_amount]}] (bar-pixel amount max_amount)) 
+  ([amount max-amount] (if (or (>= 0 amount) (>= 0 max-amount))
+                         -120
+                         (round (- (/ (* 120 (* 100 (/ amount max-amount))) 100) 120))))) 
 
 (defsnippet row-model "html/template2.html" loan-row-sel
   [{:keys [loan_id amount max_amount description interest]}]
@@ -25,7 +26,8 @@
   [:.table_max_amount_text] (content (str max_amount))
   [:.percentImage] (set-attr :style (str "background-position: "
                                          (bar-pixel amount max_amount)
-                                         "px 0pt;"))
+                                         "px 0pt;")
+                             :id (str "barpixel" loan_id))
   [:input#loanAmount] (set-attr :value amount))
 
 
@@ -59,13 +61,17 @@
     (index2 loans payments total-max-remaining total-remaining)))
 
 (defn update-loan-with-response  [{:keys [loanAmount  loanName loanInterest loanId]}]
-  #_(println loanId loanName loanInterest loanAmount)
-  (update-loan loanId loanName loanInterest loanAmount)
-  (let [loans (loan-list)
+  (println loanId loanName loanInterest loanAmount)
+  (let [changed-loan (update-loan loanId loanName loanInterest loanAmount)
+        loans (loan-list)
         payments (payment-list)
         total-max (totalMaxRemaining loans)
         total (totalRemaining loans)]
-    {:payoff-date (payoff-date payments loans)
-      :total (commify total)
-      :percent (loanPayoffPercentage loans)
-      :thermometer (thermometer-pixel loans)}))
+    {:payoffdate (str (payoff-date payments loans))
+     :total (str (commify total))
+     :percent (str (loanPayoffPercentage loans))
+     :paymentweek (str (payment-per-week payments))
+     :paymentmonth (str (payment-per-month payments))
+     :barpixel (str (bar-pixel changed-loan))
+     :loanid (str loanId)
+     :thermometer (str (thermometer-pixel loans))}))
