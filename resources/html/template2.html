@@ -25,7 +25,6 @@
             }
 
             function updatePage (json) {
-                //console.log(json);
                 $("#cdg_m").animate({ height: json.thermometer}, 'slow');
                 $("#cdg_p").animate({ marginBottom: json.thermometer}, 'slow');
                 $("#barpixel" + json.loanid).animate({ 'background-position-x': json.barpixel}, 'slow');
