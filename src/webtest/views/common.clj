@@ -20,6 +20,7 @@
 (defsnippet row-model "html/template2.html" loan-row-sel
   [{:keys [loan_id amount max_amount description interest]}]
   [:input#loanName] (set-attr :value description)
+  [:input#loanId] (set-attr :value loan_id)
   [:input#loanInterest] (set-attr :value interest)
   [:.table_max_amount_text] (content (str max_amount))
   [:.percentImage] (set-attr :style (str "background-position: "
@@ -57,13 +58,14 @@
         total-remaining (totalRemaining loans)]
     (index2 loans payments total-max-remaining total-remaining)))
 
-(defn update-loan-with-response [loanId loanName loanInterest loanAmount]
+(defn update-loan-with-response  [{:keys [loanAmount  loanName loanInterest loanId]}]
+  #_(println loanId loanName loanInterest loanAmount)
   (update-loan loanId loanName loanInterest loanAmount)
   (let [loans (loan-list)
         payments (payment-list)
         total-max (totalMaxRemaining loans)
         total (totalRemaining loans)]
-    ({:payoff-date (payoff-date payments loans)
+    {:payoff-date (payoff-date payments loans)
       :total (commify total)
       :percent (loanPayoffPercentage loans)
-      :thermometer (thermometer-pixel loans)})))
+      :thermometer (thermometer-pixel loans)}))

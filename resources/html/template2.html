@@ -6,30 +6,29 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("form#update").submit(function(event) {
+                //console.log(event.data);
+                // stop normal submit
                 event.preventDefault();
-                var t = {loanId: $('#loanId').attr('value'),
-                     loanName: $('#loanName').attr('value'),
-                     loanInterest: $('#loanInterest').attr('value'),
-                     loanAmount: $('#loanAmount').attr('value')};
-                alert("update called" + t);
-                $.post(
-                    "update",
-                    t,
-                    function(json) { updatePage(json); }
-                );
+                var t = {loanId: event.currentTarget[0].value,
+                         loanName: event.currentTarget[1].value,
+                         loanInterest: event.currentTarget[2].value,
+                         loanAmount: event.currentTarget[3].value};
+                //alert("update called" + t);
+                $.post("update", t, function(json) { updatePage(json); }, "json");
                 return false;
             });
 
             function updatePage (json) {
-                alert("data: " + json);
-        //        $("#cdg_m").animate({ height: $("marginLevel", xml).text()}, 'slow');
-        //        $("#cdg_h2").html("Payoff Percentage: " + $("percentPaid", xml).text() + "%");
-        //        $("#percentageLeft1").html(100-parseInt($("percentPaid", xml).text()));
-        //        $("#payoffDate").html($("payoffDate", xml).text());
-        //        $("#interestSaved").html($("interestSaved", xml).text());
-        //        $("#totalLoanAmount2").html($("totalLoanAmount", xml).text());
-        //        $("#totalLoanAmount").html($("totalLoanAmount", xml).text());
-        //        $("#cdg_p").animate( {marginBottom: $("marginLevel", xml).text()}, 'slow');
+                //alert(json);
+                //console.log(json);
+                $("#cdg_m").animate({ height: json.marginlevel}, 'slow');
+                $("#cdg_h2").html("Payoff Percentage: " + json.percentpaid + "%");
+                $("#percentageLeft1").html(100-parseInt($("percentPaid", xml).text()));
+                $("#payoffDate").html($("payoffDate", xml).text());
+                $("#interestSaved").html($("interestSaved", xml).text());
+                $("#totalLoanAmount2").html($("totalloanamount", xml).text());
+                $("#totalLoanAmount").html($("totalloanamount", xml).text());
+                $("#cdg_p").animate( {marginBottom: $("marginLevel", xml).text()}, 'slow');
             }
 
             $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focus(function(){

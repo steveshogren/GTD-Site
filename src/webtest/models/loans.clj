@@ -21,4 +21,5 @@
 
 (defn update-loan
   [loanId loanName loanInterest loanAmount]
+  #_(println "updating loan" loanId loanName loanInterest loanAmount)
   (update loan (set-fields {:description loanName :amount loanAmount :interest loanInterest}) (where {:loan_id loanId})))
