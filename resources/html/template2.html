@@ -17,18 +17,19 @@
                 $.post("update", t, function(json) { updatePage(json); }, "json");
                 return false;
             });
+            
+            function getThermometerPercent(percent) {
+
+            }
 
             function updatePage (json) {
                 //alert(json);
                 //console.log(json);
                 $("#cdg_m").animate({ height: json.marginlevel}, 'slow');
-                $("#cdg_h2").html("Payoff Percentage: " + json.percentpaid + "%");
-                $("#percentageLeft1").html(100-parseInt($("percentPaid", xml).text()));
-                $("#payoffDate").html($("payoffDate", xml).text());
-                $("#interestSaved").html($("interestSaved", xml).text());
-                $("#totalLoanAmount2").html($("totalloanamount", xml).text());
-                $("#totalLoanAmount").html($("totalloanamount", xml).text());
-                $("#cdg_p").animate( {marginBottom: $("marginLevel", xml).text()}, 'slow');
+                $("#cdg_p").animate( {marginBottom: json.marginlevel}, 'slow');
+                $("#cdg_h2").html("Percent remaining: " + json.percentpaid + "%");
+                $("#payoffDate").html(json.payoffdate);
+                $("#totalLoanAmount").html(json.totalloanamount);
             }
 
             $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focus(function(){

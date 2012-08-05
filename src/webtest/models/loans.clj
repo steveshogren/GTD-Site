@@ -19,7 +19,20 @@
     (order :interest :DESC)
     (order :amount :DESC)))
 
+(defn loan-by-id [id]
+  (select loan
+    (where {:loan_id id})))
+
+(defn intn [val]
+  (java.lang.Float/parseFloat val))
+
 (defn update-loan
   [loanId loanName loanInterest loanAmount]
   #_(println "updating loan" loanId loanName loanInterest loanAmount)
-  (update loan (set-fields {:description loanName :amount loanAmount :interest loanInterest}) (where {:loan_id loanId})))
+  (let [old-max (get (first (loan-by-id loanId)) :max_amount)
+        new-max (if (> (intn loanAmount) old-max) loanAmount old-max)]
+    (update loan
+      (set-fields {:description loanName :amount loanAmount :interest loanInterest :max_amount new-max})
+      (where {:loan_id loanId}))))
+
+
