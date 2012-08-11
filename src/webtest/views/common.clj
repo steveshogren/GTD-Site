@@ -42,9 +42,9 @@
   ([n locale]
      (.format (NumberFormat/getInstance locale) (bigdec n))))
 
-(deftemplate index2 "html/template2.html"
-  [loans payments total-max-remaining total-remaining]
-  [:form#update] (content (map row-model loans))
+(deftemplate fetch-main-template "html/template2.html"
+  [loans payments total-max-remaining total-remaining main-content]
+  [:form#update] (content main-content)
   [:#averagePerWeek] (content (commify (payment-per-week payments)))
   [:#averagePerMonth] (content (commify (payment-per-month payments)))
   [:#payoffDate] (content (payoff-date payments loans))
@@ -54,12 +54,12 @@
   [:#cdg_p] (set-attr :style (str "margin-bottom: " (thermometer-pixel loans) "px;"))
   [:h2#cdg_h2] (content (str "Percent remaining: " (loanPayoffPercentage loans) "%")))
 
-(defpartial layout []
+(defpartial main-layout []
   (let [loans (loan-list)
         payments (payment-list)
         total-max-remaining (totalMaxRemaining loans)
         total-remaining (totalRemaining loans)]
-    (index2 loans payments total-max-remaining total-remaining)))
+    (fetch-main-template loans payments total-max-remaining total-remaining (map row-model loans))))
 
 (defn loan-ajax-response []
   (let [loans (loan-list)
