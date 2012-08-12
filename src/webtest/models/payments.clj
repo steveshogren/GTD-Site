@@ -23,6 +23,9 @@
 (defn sum-payments [payments]
   (sumKey payments :amount))
 
+(defn summed-payments-by-month []
+  (exec-raw "select sum(amount) amount, month(date_paid) month, year(date_paid) year from payment where user_id = 17 group by year(date_paid), month(date_paid)" :results))
+
 (defn payment-per-day [payments]
  (/ (- (sum-payments payments) (get (last payments) :amount)) (days-of-payment payments)))
 

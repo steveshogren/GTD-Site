@@ -31,20 +31,28 @@
                              :id (str "barpixel" loan_id))
   [:input#loanAmount] (set-attr :value amount))
 
+(def updatetable [:updateTable])
+
+(defsnippet table-model "html/template2.html" updatetable
+  [loans]
+  [:form#update] (content (map row-model loans)))
 
 (defn thermometer-pixel [loans]
   (/ (* 300 (- 100 (loanPayoffPercentage loans))) 100))
 
-(import '(java.text NumberFormat)
-        '(java.util Locale))
+(import '(java.text NumberFormat) '(java.util Locale))
 (defn commify
   ([n] (commify n (Locale/US)))
-  ([n locale]
-     (.format (NumberFormat/getInstance locale) (bigdec n))))
+  ([n locale] (.format (NumberFormat/getInstance locale) (bigdec n))))
 
 (deftemplate fetch-main-template "html/template2.html"
-  [loans payments total-max-remaining total-remaining main-content]
+  [loans payments total-max-remaining total-remaining {:keys [main-content mattr]} {:keys [secondary sattr]}]
+  #_(println  "test")
   [:form#update] (content main-content)
+  [:.tables] mattr 
+  [:#secondary] (content secondary)
+  [:#secondary] sattr 
+  [:#secondarychart] sattr 
   [:#averagePerWeek] (content (commify (payment-per-week payments)))
   [:#averagePerMonth] (content (commify (payment-per-month payments)))
   [:#payoffDate] (content (payoff-date payments loans))
@@ -59,7 +67,9 @@
         payments (payment-list)
         total-max-remaining (totalMaxRemaining loans)
         total-remaining (totalRemaining loans)]
-    (fetch-main-template loans payments total-max-remaining total-remaining (map row-model loans))))
+    (fetch-main-template loans payments total-max-remaining total-remaining
+                         {:main-content (map row-model loans) :mattr (set-attr :test "test")}
+                         {:secondary "" :sattr (set-attr :hidden "true")})))
 
 (defn loan-ajax-response []
   (let [loans (loan-list)

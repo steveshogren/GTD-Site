@@ -8,19 +8,22 @@
         [webtest.models.loans]
         [clojure.math.numeric-tower]
         [hiccup.core]
+        [noir.response :only [json]]
         [net.cgrand.enlive-html]))
 
 (defpartial get-payment-row [payment]
-  (:li
-   [:h3 (str (:date_paid payment) (:amount payment))]))
+  [:li
+   [:h3 (str (:date_paid payment) (:amount payment))]])
 
 (defpartial get-payments-list [payments]
-  (:ul (map get-payment-row payments)))
+  [:ul (map get-payment-row payments)])
 
 (defpartial stats-layout []
   (let [loans (loan-list)
         payments (payment-list)
         total-max-remaining (totalMaxRemaining loans)
         total-remaining (totalRemaining loans)]
-    (fetch-main-template loans payments total-max-remaining total-remaining (get-payments-list payments))))
+    (fetch-main-template loans payments total-max-remaining total-remaining
+                         {:main-content "" :mattr (set-attr :hidden "true")}
+                         {:secondary (json (summed-payments-by-month)) :sattr (set-attr :class "tables")})))
 

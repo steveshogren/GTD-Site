@@ -2,7 +2,46 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+   
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+     
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+
+      // Callback that creates and populates a data table, 
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+      // Create the data table.
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Payments');
+      data.addColumn('number', 'Months');
+      data.addRows([
+        ['Mushrooms', 3],
+        ['Onions', 1],
+        ['Olives', 1], 
+        ['Zucchini', 1],
+        ['Mushrooms', 3],
+        ['Zucchini', 1],
+      ]);
+
+      // Set chart options
+      var options = {'title':'Monthly Payments',
+                     'width':650,
+                     'height':400};
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.LineChart(document.getElementById('secondarychart'));
+      chart.draw(data, options);
+    }
+    </script>
+
     <script type="text/javascript">
         //alert("tests");
         $(document).ready(function() {
@@ -76,14 +115,17 @@
     <div class="header-bottom">
         <div id="navcontainer">
             <ul class="navlist">
-                <li class="active"><a href="index.php">Home</a></li>
+                <li class="active"><a href="/">Home</a></li>
                 <li class=""><a href="about.php">About</a></li>
+                <li class=""><a href="/stats">Stats</a></li>
             </ul>
         </div>
     </div>
 </div>
 <div class="body-main">
 <div class="body-bottom">
+<div id="secondary"></div>
+<div id="secondarychart"></div>
 <div class="tables">
 <table class="table" id="crudTable">
     <tr>
