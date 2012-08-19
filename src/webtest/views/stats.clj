@@ -5,6 +5,7 @@
         [webtest.models.payments]
         [webtest.views.common]
         [webtest.models.database]
+        [clojure.data.json :only (json-str)]
         [webtest.models.loans]
         [clojure.math.numeric-tower]
         [hiccup.core]
@@ -25,5 +26,8 @@
         total-remaining (totalRemaining loans)]
     (fetch-main-template loans payments total-max-remaining total-remaining
                          {:main-content "" :mattr (set-attr :hidden "true")}
-                         {:secondary (json (summed-payments-by-month)) :sattr (set-attr :class "tables")})))
+                         {:secondary (str "var statData = "
+                                          (json-str (summed-payments-by-month))
+                                          ";")
+                          :sattr (set-attr :class "tables")})))
 

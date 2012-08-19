@@ -4,6 +4,7 @@
 <head>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
+    <script id="secondary"></script>
     <script type="text/javascript">
    
       // Load the Visualization API and the piechart package.
@@ -18,28 +19,23 @@
       // draws it.
       function drawChart() {
 
-      // Create the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Payments');
-      data.addColumn('number', 'Months');
-      data.addRows([
-        ['Mushrooms', 3],
-        ['Onions', 1],
-        ['Olives', 1], 
-        ['Zucchini', 1],
-        ['Mushrooms', 3],
-        ['Zucchini', 1],
-      ]);
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Payments');
+        $.each(statData, function () {
+            data.addRow([new Date(this.year, this.month, 1), this.amount]);
+        });
 
-      // Set chart options
-      var options = {'title':'Monthly Payments',
-                     'width':650,
-                     'height':400};
+        // Set chart options
+        var options = {'title':'Monthly Payments',
+                       'width':650,
+                       'height':500};
 
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.LineChart(document.getElementById('secondarychart'));
-      chart.draw(data, options);
-    }
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('secondarychart'));
+        chart.draw(data, options);
+      }
     </script>
 
     <script type="text/javascript">
@@ -124,7 +120,6 @@
 </div>
 <div class="body-main">
 <div class="body-bottom">
-<div id="secondary"></div>
 <div id="secondarychart"></div>
 <div class="tables">
 <table class="table" id="crudTable">

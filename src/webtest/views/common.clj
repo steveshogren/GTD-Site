@@ -89,9 +89,9 @@
   (let [changed-loan (update-loan loan-to-update)
         resp (loan-ajax-response)]
     (assoc resp
-      :loanid (str (get changed-loan :loan_id))
+      :loanid (str (:loan_id changed-loan))
       :barpixel (str (bar-pixel changed-loan))
-      :loanmax (str (get changed-loan :max_amount)))))
+      :loanmax (str (:max_amount changed-loan)))))
 
 (defn delete-loan-with-response
   [{:keys [loanId]}]
