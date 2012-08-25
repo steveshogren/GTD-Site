@@ -16,7 +16,6 @@
     (resps/json resp)))
 
 (defpage [:post "/delete"] valus
-  (println "delete called")
   (let [resp (common/delete-loan-with-response valus)]
     (resps/json resp)))
 

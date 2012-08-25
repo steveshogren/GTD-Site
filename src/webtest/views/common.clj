@@ -32,12 +32,6 @@
                              :id (str "barpixel" loan_id))
   [:input#loanAmount] (set-attr :value amount))
 
-#_(def updatetable [:updateTable])
-
-#_(defsnippet table-model "html/template2.html" updatetable
-  [loans]
-  [:#updateBody] (content (map row-model loans)))
-
 (defn thermometer-pixel [loans]
   (/ (* 300 (- 100 (loanPayoffPercentage loans))) 100))
 

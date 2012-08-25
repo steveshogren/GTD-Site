@@ -36,6 +36,7 @@
     (first (loan-by-id loanId))))
 
 (defn delete-loan [loanId]
+  "Not deleting payments, because those are needed for averages"
   (delete loan
     (where {:loan_id loanId})))
 
