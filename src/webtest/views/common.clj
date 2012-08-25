@@ -22,6 +22,7 @@
   [{:keys [loan_id amount max_amount description interest]}]
   [:input#loanName] (set-attr :value description)
   [:input#loanId] (set-attr :value loan_id)
+  [:td.deleteButton] (set-attr :id loan_id)
   [:input#loanInterest] (set-attr :value interest)
   [:.table_max_amount_text] (content (str max_amount))
   [:.table_max_amount_text] (set-attr :id (str "max_amount_" loan_id))

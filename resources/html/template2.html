@@ -6,7 +6,7 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script id="secondary"></script>
     <script type="text/javascript">
-    if(statData) {
+    if(typeof(statData) !== "undefined") {
       google.load('visualization', '1.0', {'packages':['corechart']});
       google.setOnLoadCallback(drawChart);
     }
@@ -34,16 +34,6 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $("form").submit(function(event) {
-                event.preventDefault();
-                var t = {loanId: event.currentTarget[0].value,
-                         loanName: event.currentTarget[1].value,
-                         loanInterest: event.currentTarget[2].value,
-                         loanAmount: event.currentTarget[3].value};
-                $.post("update", t, function(json) { updatePage(json); }, "json");
-                return false;
-            });
-
             function updateLoan (json) {
                 $("#barpixel" + json.loanid).animate({ 'background-position-x': json.barpixel}, 'slow');
                 $("#max_amount_" + json.loanid).html(json.loanmax);
@@ -61,6 +51,22 @@
                 $("#averagePerMonth").html(json.paymentmonth);
                 $("#totalLoanAmount").html(json.total);
             }
+
+            $('img.delete').bind('click', function(){
+                if (confirm('Do you really want to delete this loan?')) {
+                    $(this).closest('tr').animate({ height: 'hide', opacity: 'hide' }, 'slow');
+                    $.post("delete", {loanId: $(this).closest('td').attr("id")}, function(json) { updatePage(json); }, "json" );
+                }
+            });
+            $("form").submit(function(event) {
+                event.preventDefault();
+                var t = {loanId: event.currentTarget[0].value,
+                         loanName: event.currentTarget[1].value,
+                         loanInterest: event.currentTarget[2].value,
+                         loanAmount: event.currentTarget[3].value};
+                $.post("update", t, function(json) { updatePage(json); }, "json");
+                return false;
+            });
 
             $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focus(function(){
                 if (this.defaultValue == this.value) {
@@ -144,7 +150,7 @@
             <td class="tabletext">
                 <input type="image" class="update" title="Update" src="img/accept.png"/>
             </td>
-            <td class="tabletext" id="5">
+            <td class="tabletext deleteButton" id="5">
                 <img class="delete" src="img/delete.png"  title="Delete" alt="Delete" name="delete" value="delete" />
             </td>
         </form>
