@@ -6,17 +6,11 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script id="secondary"></script>
     <script type="text/javascript">
-   
-      // Load the Visualization API and the piechart package.
+    if(statData) {
       google.load('visualization', '1.0', {'packages':['corechart']});
-     
-      // Set a callback to run when the Google Visualization API is loaded.
       google.setOnLoadCallback(drawChart);
+    }
 
-
-      // Callback that creates and populates a data table, 
-      // instantiates the pie chart, passes in the data and
-      // draws it.
       function drawChart() {
 
         // Create the data table.
@@ -39,18 +33,13 @@
     </script>
 
     <script type="text/javascript">
-        //alert("tests");
         $(document).ready(function() {
             $("form").submit(function(event) {
-                //alert("update ");
-                //console.log(event.data);
-                // stop normal submit
                 event.preventDefault();
                 var t = {loanId: event.currentTarget[0].value,
                          loanName: event.currentTarget[1].value,
                          loanInterest: event.currentTarget[2].value,
                          loanAmount: event.currentTarget[3].value};
-                //alert("update called" + t);
                 $.post("update", t, function(json) { updatePage(json); }, "json");
                 return false;
             });
@@ -64,6 +53,7 @@
                 $("#cdg_m").animate({ height: json.thermometer}, 'slow');
                 $("#cdg_p").animate({ marginBottom: json.thermometer}, 'slow');
                 $("#barpixel" + json.loanid).animate({ 'background-position-x': json.barpixel}, 'slow');
+                $("#barpixel" + json.loanid).css('background-position', json.barpixel + "px 0px");
                 $("#max_amount_" + json.loanid).html(json.loanmax);
                 $("#cdg_h2").html("Percent remaining: " + json.percent + "%");
                 $("#payoffDate").html(json.payoffdate);
@@ -78,11 +68,11 @@
                 }
             });
 
-            $("input[class=input_amount], input[class=input_interest]").focus(function(){
-                if (this.defaultValue == this.value) {
-                    $(this).select();
-                }
-            });
+          //  $("input[class=input_amount], input[class=input_interest]").focus(function(){
+          //      if (this.defaultValue == this.value) {
+          //          $(this).select();
+          //      }
+          //  });
 
             $("input[class=input_new_amount], input[class=input_name], input[class=input_new_interest]").focusout(function(){
                 if (this.value == '') {
@@ -112,7 +102,7 @@
         <div id="navcontainer">
             <ul class="navlist">
                 <li class="active"><a href="/">Home</a></li>
-                <li class=""><a href="about.php">About</a></li>
+                <li class=""><a href="/about">About</a></li>
                 <li class=""><a href="/stats">Stats</a></li>
             </ul>
         </div>
@@ -123,6 +113,7 @@
 <div id="secondarychart"></div>
 <div class="tables">
 <table class="table" id="crudTable">
+    <thead>
     <tr>
     <th>Loan Name</th>
     <th>%</th>
@@ -132,8 +123,10 @@
     <th>Update</th>
     <th>Delete</th>
     </tr>
-    <form action="index.php" method="post" name="update" id="update">
-        <tr id="loanRow">
+    </thead>
+    <tbody id="updateBody">
+    <tr class="loanRow">
+        <form action="#" method="post" name="update">
             <input id="loanId" type="hidden" name="loanId" value="191">
             <td class="tabletext">
                 <input id="loanName" class="input_name" type="text" name="name" value="Loan Name 2">
@@ -154,8 +147,9 @@
             <td class="tabletext" id="5">
                 <img class="delete" src="img/delete.png"  title="Delete" alt="Delete" name="delete" value="delete" />
             </td>
-        </tr>
-    </form>
+        </form>
+    </tr>
+    </tbody>
 </table>
 <table class="table">
     <th>Create a New Loan</th>
@@ -164,7 +158,7 @@
     <th></th>
     <th>Create</th>
     <tr>
-        <form action="index.php" method="post" name="0" class="update">
+        <form action="#" method="post" name="0" class="update">
         <input type="hidden" name="loanId" value="0">
             <td class="tabletext">
                 <input class="input_name" type="text" name="name" value="">

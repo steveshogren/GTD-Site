@@ -9,7 +9,7 @@
         [hiccup.core]
         [net.cgrand.enlive-html]))
 
-(def loan-row-sel [[:form#update (nth-of-type 1)]])
+(def loan-row-sel [:.loanRow])
 
 ; converts the percentage to match the -120 -> 0 range 
 (defn bar-pixel
@@ -31,11 +31,11 @@
                              :id (str "barpixel" loan_id))
   [:input#loanAmount] (set-attr :value amount))
 
-(def updatetable [:updateTable])
+#_(def updatetable [:updateTable])
 
-(defsnippet table-model "html/template2.html" updatetable
+#_(defsnippet table-model "html/template2.html" updatetable
   [loans]
-  [:form#update] (content (map row-model loans)))
+  [:#updateBody] (content (map row-model loans)))
 
 (defn thermometer-pixel [loans]
   (/ (* 300 (- 100 (loanPayoffPercentage loans))) 100))
@@ -47,8 +47,8 @@
 
 (deftemplate fetch-main-template "html/template2.html"
   [loans payments total-max-remaining total-remaining {:keys [main-content mattr]} {:keys [secondary sattr]}]
-  #_(println  "test")
-  [:form#update] (content main-content)
+  #_(println (content main-content) )
+  [:#updateBody] (content main-content)
   [:.tables] mattr 
   [:#secondary] (content secondary)
   [:#secondary] sattr 
