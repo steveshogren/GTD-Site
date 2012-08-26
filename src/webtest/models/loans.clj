@@ -13,6 +13,12 @@
 (defn loanPayoffPercentage [loans]
   (round (* 100 (/ (totalRemaining loans) (totalMaxRemaining loans)))))
 
+(defn create-loan
+  [{:keys [name interest amount max_amount]}]
+  #_(println (str "name: " name " inter: " interest " amount: " amount " max: " max_amount))
+  (insert loan
+    (values {:user_id 17 :description name :amount amount :interest interest :max_amount max_amount})))
+
 (defn loan-list []
   (select loan
     (where {:user_id 17 :savings 0})

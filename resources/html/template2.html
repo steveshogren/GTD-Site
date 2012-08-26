@@ -58,12 +58,17 @@
                     $.post("delete", {loanId: $(this).closest('td').attr("id")}, function(json) { updatePage(json); }, "json" );
                 }
             });
+
             $("form").submit(function(event) {
-                event.preventDefault();
                 var t = {loanId: event.currentTarget[0].value,
                          loanName: event.currentTarget[1].value,
                          loanInterest: event.currentTarget[2].value,
                          loanAmount: event.currentTarget[3].value};
+                if (t.loanId === "0") {
+                    // create loan
+                    return true;
+                }
+                event.preventDefault();
                 $.post("update", t, function(json) { updatePage(json); }, "json");
                 return false;
             });
@@ -164,8 +169,8 @@
     <th></th>
     <th>Create</th>
     <tr>
-        <form action="#" method="post" name="0" class="update">
-        <input type="hidden" name="loanId" value="0">
+        <form action="create" method="post" name="0" class="update">
+            <input type="hidden" name="loanId" value="0">
             <td class="tabletext">
                 <input class="input_name" type="text" name="name" value="">
             </td>
@@ -182,7 +187,7 @@
                 <input type="hidden" name="Submit" value="Create">
                 <input type="image" class="create" title="Create" src="img/add.png"/>
             </td>
-    </form>
+       </form>
     </tr>
 </table>
 </div>

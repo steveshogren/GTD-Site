@@ -94,5 +94,5 @@
         resp (loan-ajax-response)]
     (assoc resp
       :loanid (str loanId))))
-    
+
 
